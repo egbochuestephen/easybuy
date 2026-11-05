@@ -31,10 +31,8 @@ public function register(Request $request)
         ]);
 
         // 3. Return a success response
-        return response()->json([
-            'message' => 'Registration successful',
-            'user' => $user
-        ], 201);
+        Auth::login($user);
+return redirect('/dashboard');
     }
 
     // Show the login form
@@ -119,7 +117,7 @@ public function register(Request $request)
         $request->validate([
             'email' => 'required|email|exists:users,email',
             'otp' => 'required|string|size:6',
-            'password' => 'required|string|min:8'
+            'password' => 'required|string|min:8|confirmed'
         ]);
 
         $user = User::where('email', $request->email)->first();

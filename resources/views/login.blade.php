@@ -1,39 +1,37 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>EasyBuy - Login</title>
-</head>
-<body>
-    <h2>Login to EasyBuy</h2>
-    @if (session('success'))
-        <div style="color: green; margin-bottom: 15px;">
-            {{ session('success') }}
-        </div>
-    @endif
-    
-    <!-- Add this link right above the submit button -->
-    <a href="/forgot-password">Forgot your password?</a><br><br>
+@extends('layout')
 
-    @if ($errors->any())
-        <div style="color: red;">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
+@section('content')
+<div class="flex items-center justify-center min-h-screen">
+    <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+        <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Login to EasyBuy</h2>
+        
+        <!-- The form still POSTs to your existing /login route -->
+        <form method="POST" action="/login" class="space-y-4">
+            @csrf
 
-    <form method="POST" action="/login">
-        @csrf 
+            <div>
+                <label class="block text-gray-700 text-sm font-bold mb-2">Email:</label>
+                <input type="email" name="email" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
+            </div>
 
-        <label>Email:</label><br>
-        <input type="email" name="email" required value="{{ old('email') }}"><br><br>
+            <div>
+                <label class="block text-gray-700 text-sm font-bold mb-2">Password:</label>
+                <input type="password" name="password" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
+            </div>
 
-        <label>Password:</label><br>
-        <input type="password" name="password" required><br><br>
-
-        <button type="submit">Login</button>
-    </form>
-</body>
-</html>
+            <div class="flex items-center justify-between mt-6">
+                <button type="submit" class="bg-blue-600 text-white font-bold py-2 px-6 rounded hover:bg-blue-700 transition duration-300">
+                    Login
+                </button>
+                
+                <!-- Link to your password reset flow -->
+                <a href="/forgot-password" class="text-sm text-blue-600 hover:underline">Forgot Password?</a>
+            </div>
+        </form>
+        
+        <p class="text-center text-gray-600 text-sm mt-6 border-t pt-4">
+            Don't have an account? <a href="/register" class="text-blue-600 hover:underline">Register here</a>
+        </p>
+    </div>
+</div>
+@endsection
